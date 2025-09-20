@@ -7,10 +7,20 @@
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <h1>Rock Paper Scissors</h1>
-    <button id="user-button">Choose</button>
-    <button id="computer-button" disabled>Computer's Choice</button>
-    <p id="result"></p>
+    <div class="game-board">
+        <div class="user-side">
+            <h2>Your Choice:</h2>
+            <ul id="user-options">
+                <li class="option" data-choice="rock">Rock</li>
+                <li class="option" data-choice="paper">Paper</li>
+                <li class="option" data-choice="scissors">Scissors</li>
+            </ul>
+        </div>
+        <div class="ai-side">
+            <h2>AI Choice:</h2>
+            <ul id="ai-options"></ul>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
