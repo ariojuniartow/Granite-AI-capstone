@@ -1,36 +1,72 @@
-const choices = ['rock', 'paper', 'scissors'];
-const userButton = document.getElementById('user-button');
-const computerButton = document.getElementById('computer-button');
-const resultParagraph = document.getElementById('result');
+const userOptions = document.getElementById('user-options');
+const aiOptions = document.getElementById('ai-options');
 
-userButton.addEventListener('click', () => {
-    const userChoice = prompt("Choose rock, paper, or scissors:");
-    if (choices.includes(userChoice.toLowerCase())) {
-        computerChoice();
+function generateAIChoice() {
+    const choices = ['rock', 'paper', 'scissors'];
+    const randomIndex = Math.floor(Math.random() * 3);
+    return choices[randomIndex];
+}
+
+function playGame() {
+    const userChoice = document.querySelector('.option.selected');
+    const user = userChoice.dataset.choice;
+
+    const aiChoice = document.createElement('li');
+    aiChoice.className = 'option';
+    aiChoice.textContent = getAIChoiceText(user);
+    aiChoice.dataset.choice = user;
+
+    aiOptions.appendChild(aiChoice);
+
+    const result = compareChoices(user, generateAIChoice());
+
+    alert(getResultText(result));
+
+    // Clear AI choices
+    setTimeout(() => {
+        aiOptions.innerHTML = '';
+    }, 1000);
+}
+
+function getAIChoiceText(user) {
+    const aiChoiceMap = {
+        rock: 'AI chooses Rock',
+        paper: 'AI chooses Paper',
+        scissors: 'AI chooses Scissors'
+    };
+
+    return aiChoiceMap[user];
+}
+
+function compareChoices(user, ai) {
+    if (user === ai) {
+        return 'DRAW';
+    } else if (
+        (user === 'rock' && ai === 'scissors') ||
+        (user === 'scissors' && ai === 'paper') ||
+        (user === 'paper' && ai === 'rock')
+    ) {
+        return 'WIN';
     } else {
-        alert("Invalid choice. Please choose rock, paper, or scissors.");
+        return 'LOSE';
+    }
+}
+
+function getResultText(result) {
+    const resultMap = {
+        WIN: 'You WIN!',
+        LOSE: 'You LOSE :(',
+        DRAW: 'It\'s a DRAW'
+    };
+
+    return resultMap[result];
+}
+
+userOptions.addEventListener('click', (e) => {
+    if (e.target.tagName === 'LI') {
+        const options = document.querySelectorAll('.option');
+        options.forEach(option => option.classList.remove('selected'));
+        e.target.classList.add('selected');
+        playGame();
     }
 });
-
-function computerChoice() {
-    const computerChoiceIndex = Math.floor(Math.random() * choices.length);
-    const computerChoice = choices[computerChoiceIndex];
-    computerButton.disabled = false;
-    computerButton.textContent = `Computer's Choice: ${computerChoice}`;
-
-    compareChoices(userChoice, computerChoice);
-}
-
-function compareChoices(user, computer) {
-    if (user === computer) {
-        resultParagraph.textContent = "It's a tie!";
-    } else if (
-        (user === 'rock' && computer === 'scissors') ||
-        (user === 'scissors' && computer === 'paper') ||
-        (user === 'paper' && computer === 'rock')
-    ) {
-        resultParagraph.textContent = `You win! ${user.charAt(0).toUpperCase() + user.slice(1)} beats ${computer.charAt(0).toUpperCase() + computer.slice(1)}.`;
-    } else {
-        resultParagraph.textContent = `You lose! ${computer.charAt(0).toUpperCase() + computer.slice(1)} beats ${user.charAt(0).toUpperCase() + user.slice(1)}.`;
-    }
-}
