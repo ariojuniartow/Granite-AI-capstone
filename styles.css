@@ -1,17 +1,23 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
 }
 
-button {
-    font-size: 18px;
-    margin: 5px;
-    padding: 10px 20px;
+.game-board {
+    display: flex;
+    justify-content: space-around;
+}
+
+.user-side, .ai-side {
+    width: 45%;
+}
+
+.option {
     cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
 }
 
-#computer-button {
-    background-color: #4CAF50;
-    color: white;
+.option.selected {
+    background-color: blue;
 }
